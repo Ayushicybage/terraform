@@ -1,5 +1,4 @@
-**Directory Structure :
-**
+Directory Structure :
 
 terraform-3tier/
 ├── main.tf
@@ -26,8 +25,7 @@ terraform-3tier/
 │       └── outputs.tf
 
 
-**Terraform - AWS configuration :
-**
+Terraform - AWS configuration :
 
 1. Create an EC2 Instance (Terraform Server)
     Login to your AWS Console → go to EC2 service.
@@ -73,8 +71,8 @@ terraform-3tier/
     Terraform will automatically use it.
 
 
-**Setting up S3 + DynamoDB remote backend for Terraform state (to store your state file safely) : 
-**
+Setting up S3 + DynamoDB remote backend for Terraform state (to store your state file safely) : 
+
 
 1. Create S3 Bucket for Terraform State (Attach role with permission AmazonS3fullaccess to Terraform server)
     AWS_REGION=ap-south-1   # or your preferred region
