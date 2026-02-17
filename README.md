@@ -77,16 +77,16 @@ Setting up S3 + DynamoDB remote backend for Terraform state (to store your state
 1. Create S3 Bucket for Terraform State (Attach role with permission AmazonS3fullaccess to Terraform server)
     AWS_REGION=ap-south-1   # or your preferred region
     BUCKET_NAME=my-terraform-state-ayushi   # must be globally unique
-    # Create bucket
+    -Create bucket
     aws s3api create-bucket \
       --bucket $BUCKET_NAME \
       --region $AWS_REGION \
       --create-bucket-configuration LocationConstraint=$AWS_REGION
-    # Enable versioning (important for rollback safety)
+    -Enable versioning (important for rollback safety)
     aws s3api put-bucket-versioning \
       --bucket $BUCKET_NAME \
       --versioning-configuration Status=Enabled
-    # Enable encryption
+    -Enable encryption
     aws s3api put-bucket-encryption \
       --bucket $BUCKET_NAME \
       --server-side-encryption-configuration '{
