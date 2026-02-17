@@ -1,22 +1,25 @@
-terraform {
-  backend "s3" {
-    bucket         = "my-terraform-state-demo-1771308527"  # your bucket name
-    key            = "envs/dev/terraform.tfstate" # path inside bucket
-    region         = "us-east-1"                 # your region
-    dynamodb_table = "terraform-locks"            # your DynamoDB table
-    encrypt        = true
-  }
+module "network" {
+  source = "./modules/network"
+  vpc_cidr = var.vpc_cidr
 }
 
-provider "aws" {
-  region = "us-east-1"   
+module "web" {
+  source = "./modules/web"
+  vpc_id = module.network.vpc_id
+  public_subnets = module.network.public_subnets
+  key_name = var.key_name
 }
 
-resource "aws_instance" "example" {
-  ami           = "ami-0c1fe732b5494dc14"  
-  instance_type = "t3.micro"
+module "app" {
+  source = "./modules/app"
+  vpc_id = module.network.vpc_id
+  private_subnets = module.network.private_subnets
+  key_name = var.key_name
+}
 
-  tags = {
-    Name = "Terraform-Test-Instance"
-  }
+module "db" {
+  source = "./modules/db"
+  private_subnets = module.network.private_subnets
+  db_username = var.db_username
+  db_password = var.db_password
 }
