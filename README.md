@@ -1,5 +1,7 @@
 Directory Structure
 
+
+
 terraform-3tier/
 ├── main.tf
 ├── variables.tf
