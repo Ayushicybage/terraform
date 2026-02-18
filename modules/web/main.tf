@@ -16,7 +16,7 @@ resource "aws_security_group" "web_sg" {
 
 resource "aws_instance" "web" {
   count         = 2
-  ami           = "ami-0c1fe732b5494dc14" # Amazon Linux 2 (us-east-1)
+  ami           = "ami-05efc83cb5512477c" 
   instance_type = "t3.micro"
   subnet_id     = var.public_subnets[count.index]
   key_name      = var.key_name
