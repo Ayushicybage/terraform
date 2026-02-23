@@ -43,7 +43,6 @@ resource "aws_route_table_association" "public_assoc" {
 }
 
 resource "aws_eip" "nat" {
-  vpc  = true
   tags = { Name = "3tier-nat-eip" }
 }
 
