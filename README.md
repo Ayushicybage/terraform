@@ -112,6 +112,60 @@ Setting up S3 + DynamoDB remote backend for Terraform state (to store your state
 
 
 
+terraform-github-actions CICD configuration :
 
+1. Create AWS credentials for GitHub
+    In the AWS Console → IAM → Users → Add user, create a CI user like:
+    terraform-github-actions
+    Attach the following policies:
+    AmazonS3FullAccess
+    AmazonDynamoDBFullAccess
+    AmazonEC2FullAccess
+    AmazonRDSFullAccess
+    IAMFullAccess (optional, if Terraform manages roles)
+    Then go to the Security Credentials tab → Create Access Key.
+    You'll get Access key & Secret key.
 
+2. Store these secrets in GitHub
+    Go to your repo →
+    Settings → Secrets and Variables → Actions → New Repository Secret
+    Add:
+    Name	Value
+    AWS_ACCESS_KEY_ID	(your key ID)
+    AWS_SECRET_ACCESS_KEY	(your secret)
+    AWS_REGION	us-east-1
+    ✅ These will be injected into the GitHub Actions environment automatically.
 
+3. Add the GitHub Actions workflow
+    Create a new folder and file in your repo:
+    .github/workflows/terraform.yml
+
+4. What each step does
+    Step	                    Purpose
+    actions/checkout	        Downloads your repo code into the runner
+    hashicorp/setup-terraform	Installs the specified Terraform version
+    configure-aws-credentials	Authenticates to AWS using repo secrets
+    terraform init	            Connects to your backend (S3 + DynamoDB)
+    terraform validate	        Checks configuration syntax
+    terraform plan	            Creates an execution plan
+    terraform apply	            Builds or updates infra (only on main branch)
+
+5. Verify the pipeline
+    1. Commit & push:
+        git add .github/workflows/terraform.yml
+        git commit -m "Add Terraform CI/CD workflow"
+        git push origin main
+    2. Go to GitHub → Actions tab
+        You’ll see the pipeline running.
+        It will:
+        Initialize Terraform
+        Validate
+        Plan
+        Apply (if on main)
+
+✅ Final Result
+    Whenever you push Terraform changes to main:
+    GitHub Actions runs automatically
+    Your backend state stays in Amazon S3
+    Locking is handled by Amazon DynamoDB
+    Infrastructure changes are deployed securely and consistently
