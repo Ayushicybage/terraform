@@ -1,0 +1,11 @@
+﻿{
+  "agentId": 2,
+  "agentName": "CVC176",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelinesghubeus5.actions.githubusercontent.com/8aMjfUOy2olvsmQevgnA047PrGokNttWnlIGFnJaahJFB56Cf5/",
+  "gitHubUrl": "https://github.com/Ayushicybage/terraform",
+  "workFolder": "_work",
+  "useV2Flow": true,
+  "serverUrlV2": "https://broker.actions.githubusercontent.com/"
+}
