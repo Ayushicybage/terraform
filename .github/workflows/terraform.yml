@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./
+        working-directory: ./terraform
 
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
