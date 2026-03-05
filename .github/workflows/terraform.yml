@@ -29,14 +29,14 @@ jobs:
       - name: List repository files
         run: dir
 
-      # ✅ DEBUG STEP 3
-      - name: Check Terraform version
-        run: terraform version
-
       - name: ⚙️ Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.6
+
+      # ✅ DEBUG STEP 3
+      - name: Check Terraform version
+        run: terraform version
 
       - name: 🔐 Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
