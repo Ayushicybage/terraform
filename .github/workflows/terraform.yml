@@ -21,8 +21,17 @@ jobs:
       - name: 🧾 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug folders
+      # ✅ DEBUG STEP 1
+      - name: Show current directory
+        run: pwd
+
+      # ✅ DEBUG STEP 2
+      - name: List repository files
         run: dir
+
+      # ✅ DEBUG STEP 3
+      - name: Check Terraform version
+        run: terraform version
 
       - name: ⚙️ Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -41,6 +50,9 @@ jobs:
 
       - name: ✅ Terraform Validate
         run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
 
       - name: Terraform Plan
         run: |
