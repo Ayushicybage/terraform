@@ -42,9 +42,17 @@ jobs:
       - name: ✅ Terraform Validate
         run: terraform validate
 
-      - name: 🧠 Terraform Plan
-        run: terraform plan -out=tfplan
+      - name: Terraform Plan
+        run: |
+          terraform plan -out=tfplan `
+            -var="key_name=${{ secrets.KEY_NAME }}" `
+            -var="db_username=${{ secrets.DB_USERNAME }}" `
+            -var="db_password=${{ secrets.DB_PASSWORD }}"
 
-      - name: 🚀 Terraform Apply (auto-approve)
+      - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve tfplan
+        run: |
+          terraform apply -auto-approve `
+            -var="key_name=${{ secrets.KEY_NAME }}" `
+            -var="db_username=${{ secrets.DB_USERNAME }}" `
+            -var="db_password=${{ secrets.DB_PASSWORD }}"
