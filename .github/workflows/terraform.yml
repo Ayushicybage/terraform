@@ -33,6 +33,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Debug files
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Files:"
+          dir
+
       - name: 🏗️ Terraform Init
         run: terraform init -reconfigure
 
@@ -40,7 +47,7 @@ jobs:
         run: terraform validate
 
       - name: 🧠 Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan 
 
       - name: 🚀 Terraform Apply (auto-approve)
         if: github.ref == 'refs/heads/main'
