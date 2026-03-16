@@ -23,7 +23,22 @@ resource "aws_instance" "app" {
   security_groups = [aws_security_group.app_sg.id]
   user_data = <<-EOF
     #!/bin/bash
-    echo "App Server ${count.index + 1}" > /home/ec2-user/app.txt
-  EOF
-  tags = { Name = "app-${count.index + 1}" }
-}
+    yum update -y
+    yum install -y nodejs
+
+    cat <<APP > /home/ec2-user/app.js
+    const http = require('http');
+
+    const server = http.createServer((req, res) => {
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end("Hello from App Server");
+    });
+
+    server.listen(8080);
+    APP
+
+    node /home/ec2-user/app.js &
+    EOF
+
+      tags = { Name = "app-${count.index + 1}" }
+    }

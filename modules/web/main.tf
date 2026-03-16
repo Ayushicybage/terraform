@@ -21,12 +21,16 @@ resource "aws_instance" "web" {
   subnet_id     = var.public_subnets[count.index]
   key_name      = var.key_name
   security_groups = [aws_security_group.web_sg.id]
-  user_data = <<-EOF
-    #!/bin/bash
-    sudo yum install -y httpd
-    echo "Hello from Web Server ${count.index + 1}" > /var/www/html/index.html
-    sudo systemctl enable httpd
-    sudo systemctl start httpd
+   user_data = <<-EOF
+  #!/bin/bash
+  sudo yum update -y
+  sudo yum install -y httpd git
+
+  cd /var/www/html
+  git clone https://github.com/hashicorp/demo-terraform-101.git .
+
+  sudo systemctl enable httpd
+  sudo systemctl start httpd
   EOF
   tags = { Name = "web-${count.index + 1}" }
 }
