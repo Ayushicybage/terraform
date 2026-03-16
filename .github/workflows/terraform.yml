@@ -37,10 +37,13 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Select Workspace
+      - name: Select Terraform Workspace
+        shell: powershell
         run: |
-          terraform workspace select $ENVIRONMENT || terraform workspace new $ENVIRONMENT
-
+          terraform workspace select $env:ENVIRONMENT
+          if ($LASTEXITCODE -ne 0) {
+              terraform workspace new $env:ENVIRONMENT
+          }
       - name: Terraform Validate
         run: terraform validate
 
