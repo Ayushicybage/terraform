@@ -22,16 +22,23 @@ resource "aws_instance" "web" {
   key_name      = var.key_name
   security_groups = [aws_security_group.web_sg.id]
    user_data = <<-EOF
-  #!/bin/bash
-  sudo yum update -y
-  sudo yum install -y httpd git
+#!/bin/bash
+yum update -y
+yum install -y httpd git
 
-  cd /var/www/html
-  git clone https://github.com/hashicorp/demo-terraform-101.git .
+systemctl start httpd
+systemctl enable httpd
 
-  sudo systemctl enable httpd
-  sudo systemctl start httpd
-  EOF
+cd /var/www/html
+
+# Remove default Apache page
+rm -rf *
+
+# Clone application
+git clone https://github.com/hashicorp/demo-terraform-101.git .
+
+systemctl restart httpd
+EOF
   tags = { Name = "web-${count.index + 1}" }
 }
 
